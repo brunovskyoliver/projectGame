@@ -26,6 +26,16 @@ def draw_grid():
             y2 = y1 + GRID_SIZE
             id = c.create_rectangle(x1, y1, x2, y2, fill="white", outline="black")
             grid[y][x] = {id: ""}
+            
+def update_grid():
+    for y in range(GRID_Y):
+        for x in range(GRID_X):
+            x1 = x * GRID_SIZE
+            y1 = y * GRID_SIZE + GRID_Y_OFFSET
+            x2 = x1 + GRID_SIZE
+            y2 = y1 + GRID_SIZE
+            id = c.create_rectangle(x1, y1, x2, y2, fill="white" if grid[y][x][list(grid[y][x].keys())[0]] == "" else grid[y][x][list(grid[y][x].keys())[0]], outline="black")
+            grid[y][x] = {id: grid[y][x][list(grid[y][x].keys())[0]]}
 
 
 def on_click(event):
@@ -44,6 +54,21 @@ def on_click(event):
         playerToPlay = 3 - playerToPlay
         grid[y][x][list(grid[y][x].keys())[0]] = color
         c.itemconfig(list(grid[y][x].keys())[0], fill=color)
+    
+    horizontal_full = False
+    vertical_full = False
+        
+    if check_horizontal() != None:
+        horizontal_full = True
+    if check_vertical() != None:
+        vertical_full = True
+
+
+    if horizontal_full:
+        erase_horizontall(list(check_horizontal().keys())[0])
+        update_grid()
+        
+        
 
 
 def on_mouse_move(event):
@@ -65,6 +90,58 @@ def on_mouse_move(event):
         if grid[y][x][id] == "":
             color = "red" if playerToPlay == 1 else "blue"
             c.itemconfig(id, fill=color)
+    
+
+        
+    
+    
+            
+def check_horizontal():
+    desired_color_1 = "blue"
+    desired_color_2 = "red"
+    for column in range(GRID_Y):
+        is_full = True
+        color_to_be_desired = grid[column][0][list(grid[column][0].keys())[0]]
+        for cell in range(GRID_X):
+            if (grid[column][cell][list(grid[column][cell].keys())[0]] == color_to_be_desired and
+            (color_to_be_desired == desired_color_1 or color_to_be_desired == desired_color_2)):
+                continue
+            elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_1:
+                is_full = False
+            elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_2:
+                is_full = False
+        if is_full:
+            return {column: color_to_be_desired}
+    
+    return None
+
+def check_vertical():
+    desired_color_1 = "blue"
+    desired_color_2 = "red"
+    for cell in range(GRID_Y):
+        is_full = True
+        color_to_be_desired = grid[0][cell][list(grid[0][cell].keys())[0]]
+        for column in range(GRID_X):
+            if (grid[column][cell][list(grid[column][cell].keys())[0]] == color_to_be_desired and
+            (color_to_be_desired == desired_color_1 or color_to_be_desired == desired_color_2)):
+                continue
+            elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_1:
+                is_full = False
+            elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_2:
+                is_full = False
+        if is_full:
+            return {cell: color_to_be_desired}
+    
+    return None
+    
+    
+def erase_horizontall(column):
+    for to_erase_column in range(column, 0, -1):
+        for cell in range(GRID_X):
+            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column - 1][cell][list(grid[to_erase_column -1 ][cell].keys())[0]]
+    for cell in range(GRID_X):
+        grid[0][cell][list(grid[0][cell].keys())[0]] = ""
+        
 
 
 c.bind("<Button-1>", on_click)
