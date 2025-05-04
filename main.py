@@ -67,6 +67,9 @@ def on_click(event):
     if horizontal_full:
         erase_horizontall(list(check_horizontal().keys())[0])
         update_grid()
+    if vertical_full:
+        erase_vertical(list(check_vertical().keys())[0])
+        update_grid()
         
         
 
@@ -141,6 +144,13 @@ def erase_horizontall(column):
             grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column - 1][cell][list(grid[to_erase_column -1 ][cell].keys())[0]]
     for cell in range(GRID_X):
         grid[0][cell][list(grid[0][cell].keys())[0]] = ""
+    
+def erase_vertical(column):
+    for cell in range(column, 0, -1):
+        for to_erase_column in range(GRID_X):
+            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column ][cell-1][list(grid[to_erase_column][cell - 1].keys())[0]]
+    for cell in range(GRID_Y):
+        grid[cell][0][list(grid[cell][0].keys())[0]] = ""
         
 
 
