@@ -63,11 +63,16 @@ def on_click(event):
     if check_vertical() != None:
         vertical_full = True
 
-
-    if horizontal_full:
+    if horizontal_full and vertical_full:
+        column = check_horizontal()
+        colum1 = check_vertical()
+        erase_horizontall(list(column.keys())[0])
+        erase_vertical(list(colum1.keys())[0])
+        update_grid()
+    elif horizontal_full:
         erase_horizontall(list(check_horizontal().keys())[0])
         update_grid()
-    if vertical_full:
+    elif vertical_full:
         erase_vertical(list(check_vertical().keys())[0])
         update_grid()
         
@@ -104,17 +109,18 @@ def check_horizontal():
     desired_color_2 = "red"
     for column in range(GRID_Y):
         is_full = True
-        color_to_be_desired = grid[column][0][list(grid[column][0].keys())[0]]
         for cell in range(GRID_X):
-            if (grid[column][cell][list(grid[column][cell].keys())[0]] == color_to_be_desired and
-            (color_to_be_desired == desired_color_1 or color_to_be_desired == desired_color_2)):
+            if (grid[column][cell][list(grid[column][cell].keys())[0]] == 
+                desired_color_1 or 
+                grid[column][cell][list(grid[column][cell].keys())[0]] == 
+                desired_color_2):
                 continue
             elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_1:
                 is_full = False
             elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_2:
                 is_full = False
         if is_full:
-            return {column: color_to_be_desired}
+            return {column: "color_to_be_desired"}
     
     return None
 
@@ -123,17 +129,18 @@ def check_vertical():
     desired_color_2 = "red"
     for cell in range(GRID_Y):
         is_full = True
-        color_to_be_desired = grid[0][cell][list(grid[0][cell].keys())[0]]
         for column in range(GRID_X):
-            if (grid[column][cell][list(grid[column][cell].keys())[0]] == color_to_be_desired and
-            (color_to_be_desired == desired_color_1 or color_to_be_desired == desired_color_2)):
+            if (grid[column][cell][list(grid[column][cell].keys())[0]] == 
+                desired_color_1 or 
+                grid[column][cell][list(grid[column][cell].keys())[0]] == 
+                desired_color_2):
                 continue
             elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_1:
                 is_full = False
             elif grid[column][cell][list(grid[column][cell].keys())[0]] != desired_color_2:
                 is_full = False
         if is_full:
-            return {cell: color_to_be_desired}
+            return {cell: "color_to_be_desired"}
     
     return None
     
@@ -141,16 +148,16 @@ def check_vertical():
 def erase_horizontall(column):
     for to_erase_column in range(column, 0, -1):
         for cell in range(GRID_X):
-            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column - 1][cell][list(grid[to_erase_column -1 ][cell].keys())[0]]
+            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column-1][cell][list(grid[to_erase_column-1][cell].keys())[0]]
     for cell in range(GRID_X):
         grid[0][cell][list(grid[0][cell].keys())[0]] = ""
     
 def erase_vertical(column):
-    for cell in range(column, 0, -1):
+    for cell in range(column, GRID_Y-1):
         for to_erase_column in range(GRID_X):
-            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column ][cell-1][list(grid[to_erase_column][cell - 1].keys())[0]]
+            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = grid[to_erase_column][cell+1][list(grid[to_erase_column][cell+1].keys())[0]]
     for cell in range(GRID_Y):
-        grid[cell][0][list(grid[cell][0].keys())[0]] = ""
+        grid[cell][6][list(grid[cell][6].keys())[0]] = ""
         
 
 
