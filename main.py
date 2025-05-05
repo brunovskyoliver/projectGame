@@ -12,9 +12,18 @@ grid = [[{} for _ in range(GRID_X)] for _ in range(GRID_Y)]
 playerToPlay = 1
 lastMousePos = (0, 0)
 
+blue_score = 0
+red_score = 0
+
 t = tkinter.Tk()
 c = tkinter.Canvas(t, width=UI_WIDTH - 3, height=UI_HEIGHT - 3, bg="white")
 c.pack()
+
+text_id_red = c.create_text(50, 25, text="Original Text", fill="black", font=("Arial", 16))
+text_id_blue = c.create_text(200, 25, text="Original Text", fill="black", font=("Arial", 16))
+
+c.itemconfig(text_id_red, text=f"Red : {red_score}")
+c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
 
 
 def draw_grid():
@@ -39,7 +48,7 @@ def update_grid():
 
 
 def on_click(event):
-    global playerToPlay
+    global playerToPlay, red_score, blue_score
     x = event.x // GRID_SIZE
     y = (event.y - GRID_Y_OFFSET) // GRID_SIZE
     if (
@@ -69,12 +78,27 @@ def on_click(event):
         erase_horizontall(list(column.keys())[0])
         erase_vertical(list(colum1.keys())[0])
         update_grid()
+        if playerToPlay %2 == 0:
+            red_score += 50
+        elif playerToPlay % 1 == 1:
+            blue_score +=50
     elif horizontal_full:
         erase_horizontall(list(check_horizontal().keys())[0])
         update_grid()
+        if playerToPlay %2 == 0:
+            red_score += 10
+        elif playerToPlay % 1 == 1:
+            blue_score +=10
     elif vertical_full:
         erase_vertical(list(check_vertical().keys())[0])
         update_grid()
+        if playerToPlay %2 == 0:
+            red_score += 10
+        elif playerToPlay % 1 == 1:
+            blue_score +=10
+            
+    c.itemconfig(text_id_red, text=f"Red : {red_score}")
+    c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
         
         
 
