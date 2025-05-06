@@ -100,7 +100,7 @@ def on_click(event):
     c.itemconfig(text_id_red, text=f"Red : {red_score}")
     c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
     
-    print(board_state())
+    print(b())
         
         
 
@@ -185,29 +185,17 @@ def erase_vertical(column):
     for cell in range(GRID_Y):
         grid[cell][6][list(grid[cell][6].keys())[0]] = ""
         
-def board_state():
-    state = ""
-    current_state = ""
-    previous_state = ""
-    state_count = 0
+def b():
+    s="";c="";p="";n=0 
     for y in range(GRID_Y):
-        previous_state = grid[y][0][list(grid[y][0].keys())[0]]
-        current_state = previous_state
-        state_count = 1
+        p=grid[y][0][list(grid[y][0].keys())[0]];c=p;n=1
         for x in range(1,GRID_X):
-            current_state = grid[y][x][list(grid[y][x].keys())[0]]
-            if current_state != previous_state:
-                state += "w" if previous_state == "" else previous_state
-                state += str(state_count)
-                state_count = 1
-                previous_state = current_state
-            else:
-                state_count += 1
-        state += "w" if previous_state == "" else previous_state
-        state += str(state_count)
-        state += "//"
-        
-    return state
+            c=grid[y][x][list(grid[y][x].keys())[0]]
+            if c!=p:
+                s+=("w"if p==""else p)+str(n);n=1;p=c
+            else:n+=1
+        s+=("w"if p==""else p)+str(n)+"//"
+    return s
             
     
 
