@@ -6,7 +6,7 @@ GRID_Y = 7
 GRID_SIZE = 50
 GRID_Y_OFFSET = 50
 UI_WIDTH = GRID_X * GRID_SIZE
-UI_HEIGHT = GRID_Y * GRID_SIZE + GRID_Y_OFFSET
+UI_HEIGHT = GRID_Y * GRID_SIZE + GRID_Y_OFFSET*2
 
 grid = [[{} for _ in range(GRID_X)] for _ in range(GRID_Y)]
 playerToPlay = 1
@@ -80,25 +80,27 @@ def on_click(event):
         update_grid()
         if playerToPlay %2 == 0:
             red_score += 50
-        elif playerToPlay % 1 == 1:
+        elif playerToPlay % 1 == 0:
             blue_score +=50
     elif horizontal_full:
         erase_horizontall(list(check_horizontal().keys())[0])
         update_grid()
         if playerToPlay %2 == 0:
             red_score += 10
-        elif playerToPlay % 1 == 1:
+        elif playerToPlay % 1 == 0:
             blue_score +=10
     elif vertical_full:
         erase_vertical(list(check_vertical().keys())[0])
         update_grid()
         if playerToPlay %2 == 0:
             red_score += 10
-        elif playerToPlay % 1 == 1:
+        elif playerToPlay % 1 == 0:
             blue_score +=10
             
     c.itemconfig(text_id_red, text=f"Red : {red_score}")
     c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
+    
+    print(board_state())
         
         
 
@@ -183,7 +185,31 @@ def erase_vertical(column):
     for cell in range(GRID_Y):
         grid[cell][6][list(grid[cell][6].keys())[0]] = ""
         
-
+def board_state():
+    state = ""
+    current_state = ""
+    previous_state = ""
+    state_count = 0
+    for y in range(GRID_Y):
+        previous_state = grid[y][0][list(grid[y][0].keys())[0]]
+        current_state = previous_state
+        state_count = 1
+        for x in range(1,GRID_X):
+            current_state = grid[y][x][list(grid[y][x].keys())[0]]
+            if current_state != previous_state:
+                state += "w" if previous_state == "" else previous_state
+                state += str(state_count)
+                state_count = 1
+                previous_state = current_state
+            else:
+                state_count += 1
+        state += "w" if previous_state == "" else previous_state
+        state += str(state_count)
+        state += "//"
+        
+    return state
+            
+    
 
 c.bind("<Button-1>", on_click)
 c.bind("<Motion>", on_mouse_move)
