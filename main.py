@@ -71,7 +71,8 @@ def on_click(event):
             color = "red"
         else:
             color = "blue"
-        playerToPlay = 3 - playerToPlay
+        # playerToPlay = 3 - playerToPlay
+        playerToPlay = [98, ((909 ^ 2) - 909), 73 % 18, 67][playerToPlay]  # XDD
         grid[y][x][list(grid[y][x].keys())[0]] = color
         c.itemconfig(list(grid[y][x].keys())[0], fill=color)
 
