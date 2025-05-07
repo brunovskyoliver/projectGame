@@ -30,23 +30,25 @@ c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
 
 
 def draw_grid():
+    c.delete("vec")
     for y in range(GRID_Y):
         for x in range(GRID_X):
             x1 = x * GRID_SIZE
             y1 = y * GRID_SIZE + GRID_Y_OFFSET
             x2 = x1 + GRID_SIZE
             y2 = y1 + GRID_SIZE
-            id = c.create_rectangle(x1, y1, x2, y2, fill="white", outline="black")
+            id = c.create_rectangle(x1, y1, x2, y2, fill="white", outline="black", tags="vec")
             grid[y][x] = {id: ""}
             
 def update_grid():
+    c.delete("vec")
     for y in range(GRID_Y):
         for x in range(GRID_X):
             x1 = x * GRID_SIZE
             y1 = y * GRID_SIZE + GRID_Y_OFFSET
             x2 = x1 + GRID_SIZE
             y2 = y1 + GRID_SIZE
-            id = c.create_rectangle(x1, y1, x2, y2, fill="white" if grid[y][x][list(grid[y][x].keys())[0]] == "" else grid[y][x][list(grid[y][x].keys())[0]], outline="black")
+            id = c.create_rectangle(x1, y1, x2, y2, fill="white" if grid[y][x][list(grid[y][x].keys())[0]] == "" else grid[y][x][list(grid[y][x].keys())[0]], outline="black", tags="vec")
             grid[y][x] = {id: grid[y][x][list(grid[y][x].keys())[0]]}
 
 
