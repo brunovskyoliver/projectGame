@@ -19,15 +19,6 @@ t = tkinter.Tk()
 c = tkinter.Canvas(t, width=UI_WIDTH - 3, height=UI_HEIGHT - 3, bg="white")
 c.pack()
 
-text_id_red = c.create_text(50, 25, text="Original Text", fill="black", font=("Arial", 16))
-text_id_blue = c.create_text(200, 25, text="Original Text", fill="black", font=("Arial", 16))
-
-
-
-c.itemconfig(text_id_red, text=f"Red : {red_score}")
-c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
-
-
 
 def draw_grid():
     c.delete("vec")
@@ -230,18 +221,20 @@ def on_load():
     update_grid()
                 
             
-            
-            
-        
-    
-        
-    # b1w6w7w7w4r1w2w7w7w7
         
             
 save_button = tkinter.Button(t, text="Save", command=on_save)
 save_button.pack(side="left")
 load_button = tkinter.Button(t, text="Load", command=on_load)
 load_button.pack(side="right")
+
+text_id_red = c.create_text(50, 25, text="Original Text", fill="black", font=("Arial", 16))
+text_id_blue = c.create_text(200, 25, text="Original Text", fill="black", font=("Arial", 16))
+
+
+
+c.itemconfig(text_id_red, text=f"Red : {red_score}")
+c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
 
 c.bind("<Button-1>", on_click)
 c.bind("<Motion>", on_mouse_move)
