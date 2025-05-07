@@ -6,7 +6,7 @@ GRID_Y = 7
 GRID_SIZE = 50
 GRID_Y_OFFSET = 50
 UI_WIDTH = GRID_X * GRID_SIZE
-UI_HEIGHT = GRID_Y * GRID_SIZE + GRID_Y_OFFSET*2
+UI_HEIGHT = GRID_Y * GRID_SIZE + GRID_Y_OFFSET
 
 grid = [[{} for _ in range(GRID_X)] for _ in range(GRID_Y)]
 playerToPlay = 1
@@ -22,8 +22,11 @@ c.pack()
 text_id_red = c.create_text(50, 25, text="Original Text", fill="black", font=("Arial", 16))
 text_id_blue = c.create_text(200, 25, text="Original Text", fill="black", font=("Arial", 16))
 
+
+
 c.itemconfig(text_id_red, text=f"Red : {red_score}")
 c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
+
 
 
 def draw_grid():
@@ -100,7 +103,6 @@ def on_click(event):
     c.itemconfig(text_id_red, text=f"Red : {red_score}")
     c.itemconfig(text_id_blue, text=f"Blue : {blue_score}")
     
-    print(b())
         
         
 
@@ -192,12 +194,52 @@ def b():
         for x in range(1,GRID_X):
             c=grid[y][x][list(grid[y][x].keys())[0]]
             if c!=p:
-                s+=("w"if p==""else p)+str(n);n=1;p=c
+                s+=("w"if p==""else "r" if p == "red" else "b")+str(n);n=1;p=c
             else:n+=1
-        s+=("w"if p==""else p)+str(n)+"//"
+        s+=("w"if p==""else p)+str(n)
     return s
-            
+
+def on_save():
+    with open("text.txt", "w") as f:
+        f.write(b())
+        
     
+
+def on_load():
+    global grid
+    s = ""
+    with open("text.txt", "r") as f:
+        s = f.read()
+        
+    count = 0
+    color = ""
+    color_count = 0
+    i = 0
+    for y in range(GRID_Y):
+        for x in range(GRID_X):
+            color = s[i]
+            color_count = int(s[i+1])
+            count += 1
+            if count <= color_count:
+                grid[y][x] = {y*8 + x: "" if color == "w" else "red" if color == "r" else "blue"}
+                if count == color_count:
+                    i +=2
+                    count = 0
+    update_grid()
+                
+            
+            
+            
+        
+    
+        
+    # b1w6w7w7w4r1w2w7w7w7
+        
+            
+save_button = tkinter.Button(t, text="Save", command=on_save)
+save_button.pack(side="left")
+load_button = tkinter.Button(t, text="Load", command=on_load)
+load_button.pack(side="right")
 
 c.bind("<Button-1>", on_click)
 c.bind("<Motion>", on_mouse_move)
