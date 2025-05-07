@@ -196,32 +196,56 @@ def check_horizontal(lk, sd, i=0):
     return None
 
 
-def check_vertical():
-    desired_color_1 = "blue"
-    desired_color_2 = "red"
-    for cell in range(GRID_Y):
-        is_full = True
-        for column in range(GRID_X):
-            if (
-                grid[column][cell][list(grid[column][cell].keys())[0]]
-                == desired_color_1
-                or grid[column][cell][list(grid[column][cell].keys())[0]]
-                == desired_color_2
-            ):
-                continue
-            elif (
-                grid[column][cell][list(grid[column][cell].keys())[0]]
-                != desired_color_1
-            ):
-                is_full = False
-            elif (
-                grid[column][cell][list(grid[column][cell].keys())[0]]
-                != desired_color_2
-            ):
-                is_full = False
-        if is_full:
-            return {cell: "color_to_be_desired"}
+# def check_vertical():
+#     desired_color_1 = "blue"
+#     desired_color_2 = "red"
+#     for cell in range(GRID_Y):
+#         is_full = True
+#         for column in range(GRID_X):
+#             if (
+#                 grid[column][cell][list(grid[column][cell].keys())[0]]
+#                 == desired_color_1
+#                 or grid[column][cell][list(grid[column][cell].keys())[0]]
+#                 == desired_color_2
+#             ):
+#                 continue
+#             elif (
+#                 grid[column][cell][list(grid[column][cell].keys())[0]]
+#                 != desired_color_1
+#             ):
+#                 is_full = False
+#             elif (
+#                 grid[column][cell][list(grid[column][cell].keys())[0]]
+#                 != desired_color_2
+#             ):
+#                 is_full = False
+#         if is_full:
+#             return {cell: "color_to_be_desired"}
+#
+#     return None
 
+
+def check_vertical(k=7):
+    s = [b"".join([bytes([ord(z)]) for z in v[::-1]])[::-1] for v in ["blue", "red"]]
+    p, d = s[0], s[1]
+    z = 0
+    while k - k + z < GRID_X:
+        x = sum(
+            [
+                not all(
+                    [
+                        (
+                            grid[r][z][list(grid[r][z].keys())[0]].encode() == p
+                            or grid[r][z][list(grid[r][z].keys())[0]].encode() == d
+                        )
+                        for r in range(GRID_Y)
+                    ]
+                )
+            ]
+        )
+        if x == 0:
+            return {z: hex(0xC0FFEE)}
+        z += 1
     return None
 
 
