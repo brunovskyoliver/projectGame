@@ -250,16 +250,28 @@ def check_vertical(k=7):
     return None
 
 
-def erase_horizontall(column):
-    for to_erase_column in range(column, 0, -1):
-        for cell in range(GRID_X):
-            grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = (
-                grid[to_erase_column - 1][cell][
-                    list(grid[to_erase_column - 1][cell].keys())[0]
-                ]
-            )
-    for cell in range(GRID_X):
-        grid[0][cell][list(grid[0][cell].keys())[0]] = ""
+# def erase_horizontall(column):
+#     for to_erase_column in range(column, 0, -1):
+#         for cell in range(GRID_X):
+#             grid[to_erase_column][cell][list(grid[to_erase_column][cell].keys())[0]] = (
+#                 grid[to_erase_column - 1][cell][
+#                     list(grid[to_erase_column - 1][cell].keys())[0]
+#                 ]
+#             )
+#     for cell in range(GRID_X):
+#         grid[0][cell][list(grid[0][cell].keys())[0]] = ""
+
+
+def erase_horizontall(OO0000OOO000OOOO0):
+    for O00000O0OOOO00OO0 in range(OO0000OOO000OOOO0, 0, -1):
+        for O00OOOO00OOO00O0O in range(GRID_X):
+            grid[O00000O0OOOO00OO0][O00OOOO00OOO00O0O][
+                list(grid[O00000O0OOOO00OO0][O00OOOO00OOO00O0O].keys())[0]
+            ] = grid[O00000O0OOOO00OO0 - 1][O00OOOO00OOO00O0O][
+                list(grid[O00000O0OOOO00OO0 - 1][O00OOOO00OOO00O0O].keys())[0]
+            ]
+    for O00OOOO00OOO00O0O in range(GRID_X):
+        grid[0][O00OOOO00OOO00O0O][list(grid[0][O00OOOO00OOO00O0O].keys())[0]] = ""
 
 
 def erase_vertical(column):
